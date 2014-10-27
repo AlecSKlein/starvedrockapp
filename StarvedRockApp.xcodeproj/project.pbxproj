@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		905B80A819F5C4DB00468A67 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80A719F5C4DB00468A67 /* ContainerViewController.swift */; };
+		905B80AA19F5C75E00468A67 /* CenterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80A919F5C75E00468A67 /* CenterMapViewController.swift */; };
+		905B80AC19F5C77300468A67 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80AB19F5C77300468A67 /* NewsViewController.swift */; };
+		905B80AE19F5C79400468A67 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80AD19F5C79400468A67 /* FiltersViewController.swift */; };
 		90FA32A719EC672D00E89D31 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA32A619EC672D00E89D31 /* AppDelegate.swift */; };
 		90FA32AA19EC672D00E89D31 /* StarvedRockApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90FA32A819EC672D00E89D31 /* StarvedRockApp.xcdatamodeld */; };
-		90FA32AC19EC672D00E89D31 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA32AB19EC672D00E89D31 /* ViewController.swift */; };
 		90FA32AF19EC672D00E89D31 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90FA32AD19EC672D00E89D31 /* Main.storyboard */; };
 		90FA32B119EC672D00E89D31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90FA32B019EC672D00E89D31 /* Images.xcassets */; };
 		90FA32B419EC672D00E89D31 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90FA32B219EC672D00E89D31 /* LaunchScreen.xib */; };
 		90FA32C019EC672D00E89D31 /* StarvedRockAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA32BF19EC672D00E89D31 /* StarvedRockAppTests.swift */; };
+		90FA32CA19EC68F500E89D31 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90FA32C919EC68F500E89D31 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +31,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		905B80A719F5C4DB00468A67 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		905B80A919F5C75E00468A67 /* CenterMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterMapViewController.swift; sourceTree = "<group>"; };
+		905B80AB19F5C77300468A67 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		905B80AD19F5C79400468A67 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		90FA32A119EC672D00E89D31 /* StarvedRockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarvedRockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90FA32A519EC672D00E89D31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90FA32A619EC672D00E89D31 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90FA32A919EC672D00E89D31 /* StarvedRockApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StarvedRockApp.xcdatamodel; sourceTree = "<group>"; };
-		90FA32AB19EC672D00E89D31 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		90FA32AE19EC672D00E89D31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		90FA32B019EC672D00E89D31 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		90FA32B319EC672D00E89D31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		90FA32B919EC672D00E89D31 /* StarvedRockAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarvedRockAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90FA32BE19EC672D00E89D31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90FA32BF19EC672D00E89D31 /* StarvedRockAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarvedRockAppTests.swift; sourceTree = "<group>"; };
+		90FA32C919EC68F500E89D31 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90FA32CA19EC68F500E89D31 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +73,7 @@
 				90FA32A319EC672D00E89D31 /* StarvedRockApp */,
 				90FA32BC19EC672D00E89D31 /* StarvedRockAppTests */,
 				90FA32A219EC672D00E89D31 /* Products */,
+				90FA32C919EC68F500E89D31 /* MapKit.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,7 +90,10 @@
 			isa = PBXGroup;
 			children = (
 				90FA32A619EC672D00E89D31 /* AppDelegate.swift */,
-				90FA32AB19EC672D00E89D31 /* ViewController.swift */,
+				905B80A719F5C4DB00468A67 /* ContainerViewController.swift */,
+				905B80A919F5C75E00468A67 /* CenterMapViewController.swift */,
+				905B80AB19F5C77300468A67 /* NewsViewController.swift */,
+				905B80AD19F5C79400468A67 /* FiltersViewController.swift */,
 				90FA32AD19EC672D00E89D31 /* Main.storyboard */,
 				90FA32B019EC672D00E89D31 /* Images.xcassets */,
 				90FA32B219EC672D00E89D31 /* LaunchScreen.xib */,
@@ -215,8 +228,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90FA32AC19EC672D00E89D31 /* ViewController.swift in Sources */,
+				905B80AA19F5C75E00468A67 /* CenterMapViewController.swift in Sources */,
+				905B80AE19F5C79400468A67 /* FiltersViewController.swift in Sources */,
 				90FA32AA19EC672D00E89D31 /* StarvedRockApp.xcdatamodeld in Sources */,
+				905B80AC19F5C77300468A67 /* NewsViewController.swift in Sources */,
+				905B80A819F5C4DB00468A67 /* ContainerViewController.swift in Sources */,
 				90FA32A719EC672D00E89D31 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +427,7 @@
 				90FA32C519EC672D00E89D31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90FA32C619EC672D00E89D31 /* Build configuration list for PBXNativeTarget "StarvedRockAppTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +436,7 @@
 				90FA32C819EC672D00E89D31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
