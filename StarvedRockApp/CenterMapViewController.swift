@@ -46,4 +46,18 @@ class CenterMapViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: Button Actions
+    
+    @IBAction func newsTapped(sender: AnyObject) {
+        if let d = delegate {
+            d.toggleLeftPanel?()
+        }
+    }
+    
+    @IBAction func filtersTapped(sender: AnyObject) {
+        if let d = delegate {
+            d.toggleRightPanel?()
+        }
+    }
 }
