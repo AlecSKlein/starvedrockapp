@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+		
+		<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&sensor=true"></script>
+		
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		
+		
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		
+		<script src="colpick.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="colpick.css" type="text/css"/>
+		
+		<title>
+			Starved Rock 
+		</title>
+		<script>
+		//Array to hold Shapes
+		var element = [];
+		
+		var notification = [];
+		//variable to hold shape being edited
+		var editingShape;
+
+		//variable's for passing between functions
+		var polyLineVar;
+		var polygonVar;
+		
+		//vars to hold attributes for shapes
+		var color;
+		var opacity;
+		var weight;
+		var fill;
+		var ID;
+		var visi;
+		var choice;
+		var poiChoice;
+		
+		
+			//initialize map
+			function initialize() {
+				var mapOptions = {
+				center: new google.maps.LatLng(41.3190, -88.9903),
+				zoom: 16,
+				draggableCursor: "crosshair",
+				mapTypeControl: false
+				};
+				
+				map = new google.maps.Map(document.getElementById('map_canvas'),
+					mapOptions);	
+				
+				//Add click event to marker, circle,and rectangle for creation 
+				google.maps.event.addListener(map, 'click', addShape);
+					
+				displayZoom();
+				
+				displayLatlng();
+				
+				addPoly();
+				
+				}
+				
+			//Pulls values from Drop down menu and executes functions according to ID
+			function addPoly(){
+			var toolchoice = document.getElementById('toolchoice');
+			ID = toolchoice.options[toolchoice.selectedIndex].value;
+			
+			
+				switch (ID)
+					{
+					case '1': 
+						addPolyline();
+					break;
+				
+					case '2':
+						addPolygon();
+					break;
+				}
+			}
+			
+			//Pulls values from Drop down menu and executes functions according to ID taking 'event' for use in shape functions
+			function addShape(event)
+			{
+			//Takes value from drop down, stores in ID
+			var toolchoice = document.getElementById('toolchoice');
+			ID = toolchoice.options[toolchoice.selectedIndex].value;
+			
+			switch (ID)
+				{
+				case '0': 
+				break;
+				
+				case '3':
+					addRectangle(event);
+				break;
+				
+				case '4': 
+					addCircle(event);
+				break;
+				
+				case '5':
+					addMarker(event);
+				break;
+				}
+				
+			}
+			
+			
+			//Adds circle to the map,takes event
+			function addCircle(event){
+				
+			var currentCircle = new google.maps.Circle({
+					map: map,
+					center: event.latLng,
+					editable: true,
+					clickable: true,
+					draggable: true,
+					// metres
+					radius: 50,
+					fillColor: '#fff',
+					fillOpacity: .6,
+					strokeColor: '#313131',
+					strokeOpacity: .4,
+					strokeWeight: .8
+				});
+				
+				//Adds listener to circle for right click, passes the current circle to the editor
+				google.maps.event.addListener(currentCircle, 'rightclick', function(){
+						openEditor(currentCircle);
+					});
+					
+				//push circle to array
+				element.push(currentCircle);				
+				
+			}
+			
+			//Adds rectangle to map, takes event
+			function addRectangle(event){
+			  
+					var currentRect = new google.maps.Rectangle({
+						bounds: new google.maps.LatLngBounds(event.latLng, new google.maps.LatLng(41.3190, -88.9903)),
+						map: map,	
+						editable: true,
+						draggable: true
+					});
+					
+					//Adds listener to Rectangle for right click, passes the current Rectangle to the editor
+					google.maps.event.addListener(currentRect, 'rightclick', function(){
+						openEditor(currentRect);
+					});
+					//Push Rectangle to array
+					element.push(currentRect);
+									
+			}
+			
+			//Adds Polyline to the map
+			function addPolyline(){
+				var polyOptions = {
+					strokeColor: '#000000',
+					strokeOpacity: 1.0,
+					strokeWeight: 3,
+					draggable: true,
+					editable: true
+				};
+				//Create Polyline
+				var currentPolyline = new google.maps.Polyline(polyOptions);
+				//Display polyline on map
+				currentPolyline.setMap(map);
+				//send polyline to global var
+				polyLineVar = currentPolyline;
+				
+				//takes event and global polyline to add a path
+				google.maps.event.addListener(map, 'click', function(event, polyLineVar) {
+					addLatlng(event,polyLineVar);
+				});
+				
+				//Takes global var and makes it local
+				currentPolyline = polyLineVar;
+				
+				//Adds listener to polyline for right click, passes the current polyline to the editor
+				google.maps.event.addListener(currentPolyline, 'rightclick', function(){
+						openEditor(currentPolyline);
+					});
+				//Push polyline to array
+				element.push(currentPolyline);
+				
+			}
+			//Sets path to polyline for each click if ID = 1.
+			function addLatlng(event, shape) {
+			
+				if(ID==1){
+					var path = polyLineVar.getPath();
+					// Because path is an MVCArray, we can simply append a new coordinate
+					// and it will automatically appear.
+				
+					path.push(event.latLng);
+								
+				}
+			}
+			
+			//Adds polygon to map
+			function addPolygon(){
+				
+				var polygonOptions = {
+					strokeColor: '#000000',
+					strokeOpacity: 1.0,
+					strokeWeight: 3,
+					draggable: true,
+					editable: true
+				};
+				//Create polygon
+				var currentPolygon = new google.maps.Polygon(polygonOptions);
+				
+				//Sets polygon to map
+				currentPolygon.setMap(map); 
+				
+				//Takes polygon from local to global variable
+				polygonVar = currentPolygon;
+				
+				//Add click listener to map, each click sends the event and global polygon
+				google.maps.event.addListener(map, 'click', function(event, polygonVar) {
+					polygonLatlng(event,polygonVar);
+				});
+				
+				//Sets global var polygon to local
+				currentPolygon = polygonVar;
+				
+				//Adds listener to polygon for right click, passes the current polygon to the editor
+				google.maps.event.addListener(currentPolygon, 'rightclick', function(){
+						openEditor(currentPolygon);
+					});
+				//Push current polygon to array
+				element.push(currentPolygon);
+				
+			}
+			//Sets path to polygon for each click if ID = 2.
+			function polygonLatlng(event,shape){
+				if(ID==2){
+					var path = polygonVar.getPath();
+			    			
+					path.push(event.latLng);					
+				}
+			}
+			
+			
+			
+				//displays zoom in div
+				function displayZoom(){
+					google.maps.event.addListener(map, 'zoom_changed', function(event) {
+					document.getElementById("zoom").innerHTML = map.getZoom();
+					});
+				}
+				
+				//displays Lat and long in div
+				function displayLatlng(){
+				google.maps.event.addListener(map, 'mousemove', function(event) {
+					var lat = event.latLng.lat();
+					var lng = event.latLng.lng();
+					// populate yor box/field with lat, lng
+					document.getElementById("latlong").innerHTML = lat.toPrecision(6) + " , " + lng.toPrecision(6);	
+				    });
+				}
+
+				//draws marker on map
+				
+				
+				//adds marker takes event
+				function addMarker(event) {
+					
+					var marker = new google.maps.Marker({
+						position: event.latLng,
+						map: map,
+						draggable:true,
+						editable:true
+						
+						
+					});
+					
+					marker.setMap(map);
+					
+					google.maps.event.addListener(marker, 'rightclick', function(){
+						openEditor(marker);
+					});
+					//push marker to array
+					element.push(marker);
+					markerJSON(marker);
+					
+				}
+
+				
+				
+				//Removes last marker from array and updates map
+				function undo(map) {
+					element[element.length-1].setMap(map);
+					element.pop();
+					JSONelement.pop();
+				}
+				
+				//Removes all markers from array and updates map
+				function deleteElements() {
+					location.reload();
+				}
+				
+				
+				//sets the map view between satellite, terrain, hybrid, and roadmap
+				function setSATELLITE(){
+					map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+					map.setZoom(17);
+				}
+				
+				function setTERRAIN(){
+				map.setZoom(17);
+					map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+					
+				}
+				
+				function setHYBRID(){
+					map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+					map.setZoom(17);
+				}
+				
+				function setROADMAP(){
+					map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+					map.setZoom(17);
+				}
+				
+				
+				//Function that sets the current drawing tool if the tool is Polygon or Polyline
+				function changeShape(){
+					var toolchoice = document.getElementById('toolchoice');
+					var ID = toolchoice.options[toolchoice.selectedIndex].value;
+					if(ID=='1'){
+						addPolyline();
+					}					
+					
+					else if(ID=='2'){
+						addPolygon();
+					}
+				}
+					
+				
+				
+				//Imports a selected JSON file for map
+				function importJSON(){
+					var file = document.getElementById('file').files[0];
+					
+					var reader = new FileReader();
+					
+					reader.readAsText(file, "UTF-8");
+					reader.onload = loaded;
+				}
+				
+						
+				//Sets options for the shape imported and draws it to the map	
+				function loaded(evt) {
+				
+					element = [];
+					clearOverlays();
+					closeEditor();
+					alert("File Loaded Successfully");
+					var fileString = evt.target.result;
+					$("#feed").text(fileString);
+					
+					var locationData = JSON.parse(fileString);
+					
+					
+					//Test alert**
+					//alert(locationData.locations[4].name);
+					
+					for(var i=0; i<=locationData.locations.length-1; i++){
+						var data = locationData.locations[i];
+						
+						if(data.type=="marker"){
+						
+							var locationLatLng = new google.maps.LatLng(data.lat, data.lng);
+							var shapeID = data.id;
+							var description = data.description;
+							var pointofinterest = data.poi;
+							//Creates marker and sets it on the map
+							var currentMarker = new google.maps.Marker({
+								position: locationLatLng,
+								map: map,
+								editable: true,
+								draggable: true,
+								id:shapeID,
+								description:description,
+								poi:pointofinterest
+								
+							});
+							
+							google.maps.event.addListener(currentMarker, 'rightclick', function(){
+								openEditor(currentMarker);
+							});
+							
+							element.push(currentMarker);
+							
+							currentMarker.setMap(map);
+							
+						}
+						
+						else if(data.type=="rectangle"){
+						
+							loc1LatLng = new google.maps.LatLng(data.lat, data.lng);
+							loc2LatLng = new google.maps.LatLng(data.lat2, data.lng2);
+							
+							var bounds = new google.maps.LatLngBounds(loc2LatLng,loc1LatLng);
+							var rectangleID = data.id;
+							var fillColor = data.fillColor;
+							var strokeColor = data.strokeColor;
+							var sOpacity = data.strokeOpacity;
+							var weight = data.strokeWeight;
+							var description = data.description;
+							var pointofinterest = data.poi;
+							
+							var currentRect = new google.maps.Rectangle({
+								bounds : bounds,
+								map: map,
+								editable: true,
+								draggable: true,
+								id: rectangleID,
+								fillColor: fillColor,
+								strokeColor: strokeColor,
+								strokeOpacity: sOpacity,
+								strokeWeight: weight,
+								description:description,
+								poi:pointofinterest
+							});
+							
+							google.maps.event.addListener(currentRect, 'rightclick', function(){
+								openEditor(currentRect);
+							});
+							
+							element.push(currentRect);
+							
+							currentRect.setMap(map);
+						}
+						else if(data.type=="circle"){
+						
+							var center = new google.maps.LatLng(data.lat, data.lng);
+							var shapeID = data.id;
+							var fillColor = data.fillColor;
+							var strokeColor = data.strokeColor;
+							var sOpacity = data.strokeOpacity;
+							var weight = data.strokeWeight;
+							var description = data.description;
+							var pointofinterest = data.poi;
+							
+							
+							var currentCircle = new google.maps.Circle({
+								map: map,
+								center: center,
+								editable: true,
+								clickable: true,
+								draggable: true,
+								// metres
+								radius: 50,
+								fillColor: fillColor,
+								fillOpacity: .6,
+								strokeColor: strokeColor,
+								strokeOpacity: sOpacity,
+								strokeWeight: weight,
+								id:shapeID,
+								description:description,
+								poi:pointofinterest
+							});
+							
+							google.maps.event.addListener(currentCircle, 'rightclick', function(){
+								openEditor(currentCircle);
+							});
+							
+							element.push(currentCircle);
+							
+							currentCircle.setMap(map);
+						}
+						
+						else if(data.type=="polyline"){
+						
+							var path = data.path;
+							
+							var decodedPath = google.maps.geometry.encoding.decodePath(path);
+						
+							var shapeID = data.id;
+							var strokeColor = data.strokeColor;
+							var sOpacity = data.strokeOpacity;
+							var weight = data.strokeWeight;
+							var description = data.description;
+							var pointofinterest = data.poi;
+							
+							var currentPolyline = new google.maps.Polyline({
+								map: map,
+								editable: true,
+								clickable: true,
+								draggable: true,
+								path: decodedPath,
+								strokeColor: strokeColor,
+								strokeOpacity: sOpacity,
+								strokeWeight: weight,
+								description:description,
+								id:shapeID,
+								poi:pointofinterest
+							
+							});
+							
+							currentPolyline.setMap(map);
+							
+							google.maps.event.addListener(currentPolyline, 'rightclick', function(){
+								openEditor(currentPolyline);
+							});
+							
+							element.push(currentPolyline);
+							
+							
+							
+						}
+						
+						else if(data.type=="polygon"){
+													
+							var paths = data.paths;
+	
+							var decodedpath = [];
+							var decodedpaths = [];
+							
+							for(var j=0;j<paths.length;j++)
+							{
+								var path = google.maps.geometry.encoding.decodePath(paths[j]);
+							
+								for(var n=0;n<path.length;n++)
+								{
+									var Latlng = path[n];
+									var lat = Latlng.lat();
+									var lng = Latlng.lng();
+									var x = new google.maps.LatLng(lat, lng);
+									decodedpath.push(x);
+								}
+								decodedpaths.push(decodedpath);
+								
+							}											
+						
+							var shapeID = data.id;
+							var strokeColor = data.strokeColor;
+							var sOpacity = data.strokeOpacity;
+							var weight = data.strokeWeight;
+							var description = data.description;
+							var pointofinterest = data.poi;
+							
+							var currentPolygon = new google.maps.Polygon({
+								map: map,
+								editable: true,
+								clickable: true,
+								draggable: true,
+								paths: decodedpaths,
+								strokeColor: strokeColor,
+								strokeOpacity: sOpacity,
+								strokeWeight: weight,
+								id:shapeID,
+								description: description,
+								poi:pointofinterest
+							
+							});
+							
+							currentPolygon.setMap(map);
+							
+							google.maps.event.addListener(currentPolygon, 'rightclick', function(){
+								openEditor(currentPolygon);
+							});
+							
+							element.push(currentPolygon);
+												
+						}						
+						
+					}
+										
+				}	
+				
+				
+				//Deletes all elements on the current map overlay
+				function clearOverlays() {
+				
+					for (var i = 0; i < element.length; i++ ) {
+						element[i].setMap(null);
+					}
+				}	
+				
+				//Imports the selected JSON file and pushes each JSON element to the jsonShapes array
+				function exportJSON(){
+					var jsonShapes = []
+					for (var i = 0; i < element.length; i++) {
+						if (element[i] instanceof google.maps.Polyline){
+							jsonShapes.push(polylineJSON(element[i]));		
+						}
+						else if (element[i] instanceof google.maps.Polygon){
+							jsonShapes.push(polygonJSON(element[i]));		
+						}
+						else if (element[i] instanceof google.maps.Rectangle){
+							jsonShapes.push(rectangleJSON(element[i]));		
+						}
+						else if (element[i] instanceof google.maps.Circle){
+							jsonShapes.push(circleJSON(element[i]));		
+						}
+						else if (element[i] instanceof google.maps.Marker){
+							jsonShapes.push(markerJSON(element[i]));		
+						}
+    
+					}
+				   
+				
+					var jsonString = JSON.stringify(jsonShapes);
+				   document.getElementById('feed').innerHTML = "{"+ "\"locations\": " + jsonString + "}";
+				}
+				
+				
+				
+				
+				//------------------PopUp window---------------------
+				function gob(e){if(typeof(e)=='object')return(e);if(document.getElementById)return(document.getElementById(e));return(eval(e))}
+				
+				
+				//Opens up the shape editor and sets up all input fields
+				function openEditor(shape){
+					gob('popUp').style.visibility = 'visible';
+					
+					editingShape = shape;
+					
+					// pull values from shape
+					
+					$('#strokeColor').colpick({
+						layout:'hex',
+						submit:0,
+						colorScheme:'dark',
+						onChange:function(hsb,hex,rgb,el,bySetColor) {
+						$(el).css('border-color','#'+hex);
+						// Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+						if(!bySetColor) $(el).val(hex);
+					}
+					}).keyup(function(){
+					$(this).colpickSetColor(this.value);
+					});
+					
+					$('#fillColor').colpick({
+						layout:'hex',
+						submit:0,
+						colorScheme:'dark',
+						onChange:function(hsb,hex,rgb,el,bySetColor) {
+						$(el).css('border-color','#'+hex);
+						// Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+						if(!bySetColor) $(el).val(hex);
+					}
+					}).keyup(function(){
+					$(this).colpickSetColor(this.value);
+					});
+					
+					
+					
+					if (editingShape instanceof google.maps.Polyline){
+						document.getElementById("popupTitle").innerHTML = "Polyline";
+					}
+					
+					else if(editingShape instanceof google.maps.Polygon){ 
+						document.getElementById("popupTitle").innerHTML = "Polygon";
+					}
+					else if(editingShape instanceof google.maps.Rectangle){  
+						document.getElementById("popupTitle").innerHTML = "Rectangle";
+					}
+					else if(editingShape instanceof google.maps.Circle){ 
+						document.getElementById("popupTitle").innerHTML = "Circle";
+					}
+					else if(editingShape instanceof google.maps.Marker){  
+						document.getElementById("popupTitle").innerHTML = "Marker";
+					}
+					
+					
+					
+				}
+				
+				
+				//Closes the popup window
+				function closeEditor(){
+					gob('popUp').style.visibility = 'hidden';
+				}
+				
+				function checkInput(){
+					if(c == ""){
+						color == '#000000';
+					}
+					else if(op ==""){
+						opacity = 1.0;
+					}
+					else if(w == ""){
+						weight == 2.0;
+					}
+					else if(fillColor == ""){
+					
+					}
+				}
+				
+				function deleteShape(visi){
+					visi = false;
+					
+					
+					
+					if (editingShape instanceof google.maps.Polyline){
+						//checkInput();
+						
+						editingShape.setOptions({
+							visible: visi
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Polygon){
+						editingShape.setOptions({
+							visible: visi
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Rectangle){
+						editingShape.setOptions({
+							visible: visi
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Circle){
+						editingShape.setOptions({
+							visible: visi
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Marker){
+							
+							editingShape.setOptions({							
+							visible: visi
+						});
+						
+							
+					}
+					
+					var temp = [];
+					for(var i = 0; i<element.length;i++)
+					{
+						if(editingShape == element[i])
+						{
+							
+						}
+						else
+						{
+							temp.push(element[i]);
+						}
+					}
+					element = temp;
+					
+					closeEditor();
+					
+				}
+				//Sets element options that user has changed through the popup window
+				function saveChanges(){
+					color = document.getElementById("strokeColor").value;
+					opacity = document.getElementById("strokeOpacity").value;
+					weight = document.getElementById("strokeWeight").value;
+					fill = document.getElementById("fillColor").value;
+					var description = document.getElementById("description").value;
+					var shapeID = document.getElementById("shapeID").value;
+					
+					var poi = document.getElementById("poiChoose");
+					choice = poi.options[poi.selectedIndex].value;
+			
+			
+				switch (choice)
+				{
+					case '1': 
+						poiChoice = "parking";
+					break;
+				
+					case '2':
+						poiChoice = "historical";
+					break;
+					
+					case '3': 
+						poiChoice = "geology";
+					break;
+				
+					case '4':
+						poiChoice = "vegetation";
+					break;
+					
+					case '5': 
+						poiChoice = "trails";
+					break;
+				
+					case '6':
+						poiChoice = "restrooms";
+					break;
+					
+					case '7': 
+						poiChoice = "visitation center";
+					break;
+				
+					case '8':
+						poiChoice = "campground";
+					break;
+					
+					case '9': 
+						poiChoice = "dining";
+					break;
+				
+					case '10':
+						poiChoice = "lodging";
+					break;
+					case '11':
+						poiChoice = "ranger station";
+					break;
+				}
+					var pointofinterest = poiChoice;
+					
+					
+					if (editingShape instanceof google.maps.Polyline){
+						//checkInput();
+						
+						editingShape.setOptions({
+							strokeColor: color,
+							strokeOpacity: opacity,
+							strokeWeight: weight,
+							id: shapeID,
+							description: description,
+							poi: pointofinterest
+						
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Polygon){
+						editingShape.setOptions({
+							strokeColor: color,
+							strokeOpacity: opacity,
+							strokeWeight: weight,
+							fillColor: fill,
+							id: shapeID,
+							description: description,
+							poi: pointofinterest
+						
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Rectangle){
+						editingShape.setOptions({
+							strokeColor: color,
+							strokeOpacity: opacity,
+							strokeWeight: weight,
+							fillColor: fill,
+							id: shapeID,
+							description: description,
+							poi: pointofinterest
+						
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Circle){
+						editingShape.setOptions({
+							strokeColor: color,
+							strokeOpacity: opacity,
+							strokeWeight: weight,
+							fillColor: fill,
+							id: shapeID,
+							description: description,
+							poi: pointofinterest
+						});
+					}
+					
+					else if(editingShape instanceof google.maps.Marker){
+							
+							editingShape.setOptions({
+							id: shapeID,
+							description: description,
+							poi: pointofinterest
+							
+						});
+						
+							
+					}
+					
+					closeEditor();
+					
+				}
+				
+				
+				
+				//------------------------------------------------------------------JSON---------------------------------------------------
+				
+				
+				//Returns marker JSON information
+				function markerJSON(marker){
+					
+					var position = marker.getPosition();
+					var lat = position.lat();
+					var lng = position.lng();
+					var shapeID = marker.id;
+					var description = marker.description;
+					var poi = marker.poi;
+					
+					return {'type' : 'marker', "id": shapeID,'lat' : lat, 'lng' : lng, "description": description, "poi": poi};
+					
+				}
+				
+				
+				//Converts rectangle path to JSON file format and returns all other JSON information
+				function rectangleJSON(rectangle){
+					
+					var bounds = rectangle.getBounds();
+					
+					var latlong = bounds.getNorthEast();
+					var latlong2 = bounds.getSouthWest();
+					
+					var lat1 = latlong.lat();
+					var long1 = latlong.lng();
+					var lat2 = latlong2.lat();
+					var long2 = latlong2.lng();
+					var shapeID = rectangle.id;
+					var sColor = rectangle.strokeColor;
+					var sOpacity = rectangle.strokeOpacity;
+					var weight = rectangle.strokeWeight;
+					var fillColor = rectangle.fillColor;
+					var shapeID = rectangle.id;
+					var description = rectangle.description;
+					var poi = rectangle.poi;
+					
+					return {"type" : 'rectangle', "id": shapeID, "lat" : lat1, "lng" : long1, "lat2" : lat2, "lng2" : long2, "id":shapeID, "fillColor":fillColor, "strokeColor":sColor, "strokeOpacity":sOpacity, "strokeWeight":weight , "description": description, "poi": poi};
+					
+				}
+	
+	
+				//Returns JSON information for the current circle
+				function circleJSON(circle){
+				
+					var center = circle.getCenter();
+					
+					var radius = circle.getRadius();
+					var shapeID = circle.id;
+					var sColor = circle.strokeColor;
+					var sOpacity = circle.strokeOpacity;
+					var weight = circle.strokeWeight;
+					var fillColor = circle.fillColor;
+					var shapeID = circle.id;
+					var description = circle.description;
+					var poi = circle.poi;
+					
+					return {"type" : 'circle', "id": shapeID, "radius" : radius, "lat" : center.k, "lng" : center.A, "id":shapeID, "fillColor":fillColor, "strokeColor":sColor, "strokeOpacity":sOpacity, "strokeWeight":weight , "description": description, "poi": poi};
+					
+				} 
+				
+				//Encodes polygon path and returns all JSON information of current polygon
+				function polygonJSON(polygon){
+					var paths = polygon.getPaths();
+					var shapeID = polygon.id;
+					var sColor = polygon.strokeColor;
+					var sOpacity = polygon.strokeOpacity;
+					var weight = polygon.strokeWeight;
+					var fillColor = polygon.fillColor;
+					var description = polygon.description;
+					var poi = polygon.poi;
+				
+					
+					 var encoded = [];
+					for(i=0;i<paths.length;i++)
+					{
+						encoded.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+					
+					} 
+					
+					return {'type' : 'polygon', 'id':shapeID, 'paths' : encoded, "fillColor":fillColor, "strokeColor":sColor, "strokeOpacity":sOpacity, "strokeWeight":weight , "description": description, "poi": poi};
+				}
+				
+				//Encodes polyline path and returns all JSON information of current polyline
+				function polylineJSON(polyline){
+				    var path = polyline.getPath();
+					var shapeID = polyline.id;
+					var sColor = polyline.strokeColor;
+					var sOpacity = polyline.strokeOpacity;
+					var weight = polyline.strokeWeight;
+					var description = polyline.description;
+					var poi = polyline.poi;
+					
+					var encoded = google.maps.geometry.encoding.encodePath(path);
+					
+					return {'type' : 'polyline', 'id':shapeID, 'path' : encoded, "strokeColor":sColor, "strokeOpacity":sOpacity, "strokeWeight":weight , "description": description, "poi": poi};
+				}
+				
+//-------------------------------------------------------Notification-------------------------------------------------------------				
+				 $(function() {
+					$( "#datepicker" ).datepicker();
+				});
+  
+				
+				
+			
+				function download() {
+				
+					var dateVal = document.getElementById("datepicker").value;
+					var notify = document.getElementById("note").value;
+					var noteOb = {date:dateVal, notification:notify};
+					
+					notification.push(noteOb);
+					
+					
+					var jsonnotString = JSON.stringify(notification);
+                    
+					document.getElementById('notefeed').innerHTML = "{"+ "\"notifications\": " + jsonnotString + "}";
+					
+				}
+				google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+	</head>
+	<body>
+		<!-- Top banner -->
+		<div id="topBar">
+			<div id="mapTitle" class="top">
+				<h2><img src="logo-large.png" width="230" height="80"></h2>
+			</div>
+			
+			<div id="tools" class="top">
+				<form id="tools" onchange="addPoly()">
+					<select id="toolchoice" >
+					<option value="0">- Select -</option>
+					<option value="1">Polyline</option>
+					<option value="2">Polygon</option>
+					<option value="3">Rectangle</option>
+					<option value="4">Circle</option>
+					<option value="5">Marker</option>
+					</select>
+				</form>
+			</div>
+			
+			<div id="latlongitude" class="top">
+				Latitude & Longitude:
+			</div>
+			
+			<div id="latlong" class="top">
+				
+			</div>
+			
+			<div id="zoomlbl" class="top">
+				Zoom: 
+			</div>
+			
+			<div id="zoom" class="top">
+				17
+			</div>
+		</div>
+		
+		<!-- Google Map -->
+		<div id="map_canvas">
+			<!-- Add Google Maps API stuff here -->
+			
+		</div>
+		
+		<!-- Div for area surrounding all of the functionality buttons -->
+		<div id="buttonField">
+			<div id="radioButtons">
+				<!--//radio buttons to control the map view-->
+				<form>
+				<label>Map View: </label>
+					<input type="radio" name="view" value="1" onclick="setTERRAIN()">TERRAIN</input>
+					<input type="radio" name="view" value="2" onclick="setHYBRID()">HYBRID</input>
+					<input type="radio" name="view" value="3" onclick="setROADMAP()" checked>ROADMAP</input>
+					<input type="radio" name="view" value="4" onclick="setSATELLITE()">SATELLITE</input>
+				</form>
+			</div>
+		
+			<!--Button field for all functionality buttons. Functions are called through onclick events-->
+			<div id="buttons2">
+				<div id="undo" class="button">
+					<button onclick="undo()" type="button">Undo</button>
+				</div>
+				<div id="nextShape" class="button">
+					<button type="button" onclick="changeShape()">Next Shape</button>
+				</div>
+			
+				<div id="clear" class="button">
+					
+					<button onclick="deleteElements()" type="button">Clear Map</button>
+				</div>
+			</div>
+		
+		
+			<div id="buttons3">
+				
+				<div id="export" class="button">
+					<button onclick="exportJSON()" type="button">
+						Export
+					</button>
+				</div>
+				
+				<div id="import" class="button">
+					<input type="file" id="file" name="files[]" onchange="importJSON()">
+				</div>
+			</div>
+			
+			
+			<!----------------------------popup window----------------------------->
+			<div id="popUp">
+				<span id="popUpText">
+				<div style="float:right;"><a class="closeButton" href="javascript:closeEditor('popUp')">X</a></div>
+				<div style="float:left;"><b id="popupTitle"></b></div>
+					<form><br><br>
+						<!--Sets up fields on the popup field.-->
+						ID: 	<input type="text" id="shapeID" style="width: 50px, margin-left: 1px"><br>
+						<form id="poi">
+						POI:	<select id="poiChoose" >
+							<option value="0">- Select -</option>
+							<option value="1">Parking</option>
+							<option value="2">Historical</option>
+							<option value="3">Geology</option>
+							<option value="4">Vegetation</option>
+							<option value="5">Trails</option>
+							<option value="6">Restrooms</option>
+							<option value="7">Visitation Center</option>
+							<option value="8">Campground</option>
+							<option value="9">Dining</option>
+							<option value="10">Lodging</option>
+							<option value="11">Ranger Station</option>
+							</select>
+						</form>
+						Stroke Color:   <input type="text" id="strokeColor" value="#000000" style="width: 50px; margin-left:10px"><br>
+						Stroke Opacity: <input type="text" id="strokeOpacity" value = "1" style="width: 50px; margin-top:5px"><br>
+						Stroke Weight:  <input type="text" id="strokeWeight" value="3" style="width: 50px; margin-left: 4px"><br>
+						Fill Color:   <input type="text" id="fillColor" value="#000000" style="width: 50px; margin-left:30px"></input><br>
+						<textarea  id="description" rows="4" cols="30"></textarea>
+						
+						
+						<br><button type="button" onclick="saveChanges()">
+							Save changes
+						</button>
+						<button type="button" onclick="deleteShape()">
+							Delete
+						</button>
+					</form>
+				</span>
+			</div>
+			<!--end of pop up-->
+			
+		</div>
+		
+		<!-- Live text feed -->
+		<div id="feed">
+		
+		</div>
+		
+		<!-- Campus Map description -->
+		<div id="description">
+			<h4>Map Description</h4> 
+			This map tool provides the user with an easy-to-use interface. All buttons on the page are linked to their respective functionalities on the map. These functionalities include selecting a drawing tool, creating a new polygon/polyline ("Next Shape"), clearing the map, and importing/exporting a pre-defined map. Right-click on each individual shape in order to change its attributes (color, opacity, id, etc). Upon selecting the "Export" button, the tool will output a JSON file of all elements on the map. And selecting the "Import" button will import that JSON file you created on export (or any other JSON file that you may have).
+		</div>
+        </br>
+		<hr>
+		
+			<h4>Add Notification<h4>
+		<form >
+			<p>Date: <input type="text" id="datepicker"></p></br>
+			<textarea id="note" rows="5" cols="100"></textarea></br>
+			 <input type="button" value="Create Json" onclick="download()">
+		</form>
+                <div id="notefeed">
+                    
+                </div>
+	</body>
+	
+</html>
