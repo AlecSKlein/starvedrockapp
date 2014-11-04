@@ -2,9 +2,14 @@ package com.example.starvedrock;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class FragmentAdapter extends FragmentPagerAdapter {
+
+
+
+public class FragmentAdapter extends FragmentStatePagerAdapter {
+
+//	private Context context;
 
 	public FragmentAdapter(FragmentManager fm) {
 		super(fm);
@@ -12,11 +17,17 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public Fragment getItem(int arg0) {
+	public Fragment getItem(int index) {
 		// Depending on which tab is picked, we will make an if/else to set fragment
-		Fragment fragment = new PoIFragment();
-		
-		return fragment;
+		Fragment fragment;
+		if(index ==0){
+			fragment = new OurMapFragment();
+			return fragment;
+		}else
+		{
+			fragment = new PoIFragment();
+			return fragment;
+		}
 	}
 
 	@Override

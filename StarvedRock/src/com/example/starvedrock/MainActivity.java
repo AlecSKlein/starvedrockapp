@@ -2,10 +2,7 @@ package com.example.starvedrock;
 
 
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
+
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -17,7 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 public class MainActivity extends FragmentActivity  {
-	private GoogleMap mMap;
+	;
 	private ViewPager mViewPager;
 	private FragmentAdapter mAdapter;
     @Override
@@ -30,8 +27,7 @@ public class MainActivity extends FragmentActivity  {
         mAdapter=new FragmentAdapter(getSupportFragmentManager());
         final ActionBar actionBar=getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);    
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-       	mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3189, -88.9901), 17));
+          
         // Specify that tabs should be displayed in the action bar.
     
         mViewPager = (ViewPager) findViewById(R.id.pager);
