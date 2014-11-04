@@ -13,23 +13,29 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity  {
 	private GoogleMap mMap;
 	private ViewPager mViewPager;
+	private FragmentAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final ActionBar actionBar=getActionBar();
-     
-        //final ViewPager mViewPager= (ViewPager) findViewById(R.id.pager); 
+        
+        
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        mAdapter=new FragmentAdapter(getSupportFragmentManager());
+        final ActionBar actionBar=getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);    
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
        	mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3189, -88.9901), 17));
         // Specify that tabs should be displayed in the action bar.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+    
         mViewPager = (ViewPager) findViewById(R.id.pager);
+       mViewPager.setAdapter(mAdapter);
         mViewPager.setOnPageChangeListener(
                 new ViewPager.SimpleOnPageChangeListener() {
                     @Override
@@ -39,6 +45,8 @@ public class MainActivity extends Activity {
                         getActionBar().setSelectedNavigationItem(position);
                     }
                 });
+     // mViewPager.setAdapter(mAdapter);
+        
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
 			@Override
@@ -65,9 +73,9 @@ public class MainActivity extends Activity {
         for (int i = 0; i < 3; i++) {
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText("")
+                            .setText("Test")
                             .setTabListener(tabListener));
         }
-   
+        
     }
 }
