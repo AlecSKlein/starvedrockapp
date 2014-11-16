@@ -225,6 +225,7 @@ containing a value of this type.
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int pager=0x7f050005;
+        public static final int poiText=0x7f050007;
         public static final int satellite=0x7f050002;
         public static final int terrain=0x7f050003;
     }

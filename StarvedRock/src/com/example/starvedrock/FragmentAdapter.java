@@ -3,6 +3,7 @@ package com.example.starvedrock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.TextView;
 
 
 
@@ -26,6 +27,10 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
 		}else
 		{
 			fragment = new PoIFragment();
+			//Notification note=new Notification(Notification.Type.UPDATE, "Hello there sexy", "now", "eventually");
+			//TextView tview=(TextView)fragment.getView().findViewById(R.id.poiText);   
+			 //tview.setText(note.getText());
+		       // ((PoIFragment) fragment).showText(note.getText());
 			return fragment;
 		}
 	}

@@ -1,6 +1,7 @@
 package com.example.starvedrock;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -31,13 +32,13 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 	
 	//Strings to create tables
 	private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE "
-			+ NOTIFICATION_TABLE + "(" +NAME + " TEXT, "
-			+ TEXT + " TEXT, " + TIME + " Primary datetime, "
-			+EXPIRES +" date);";
+			+ NOTIFICATION_TABLE + "(" +TYPE + " TEXT, "
+			+ TEXT + " TEXT, " + TIME + "  TEXT, "
+			+EXPIRES +" TEXT);";
 
 	private static final String CREATE_TABLE_POI = "CREATE TABLE "
-			+ POI_TABLE + "(" +NAME + " TEXT, "+PICTURES+" blob, "+ LATITUDE + " REAL, " + LONGITUDE + " REAL, "
-			+ NOTES + " TEXT, " + "PRIMARY KEY ("+LATITUDE +", "+LONGITUDE+");";
+			+ POI_TABLE + "(" +NAME + " TEXT, "+TYPE+ " TEXT, "+PICTURES+" blob, "+ LATITUDE + " REAL, " + LONGITUDE + " REAL, "
+			+ NOTES + " TEXT, " + "PRIMARY KEY ("+LATITUDE +", "+LONGITUDE+"));";
 
 	StarvedRockDBHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,7 +49,6 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 		Log.d(null,"IN ONCREATE");
 		database.execSQL(CREATE_TABLE_NOTIFICATION);
 		database.execSQL(CREATE_TABLE_POI);
-
 	}
 
 	@Override
@@ -62,4 +62,21 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 
 	}
 
+	public boolean regionTableExists(SQLiteDatabase database)
+	{
+		if(!database.isOpen())
+			return false;
+		
+		Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + NOTIFICATION_TABLE + ";", null);
+		
+		int count = cursor.getCount();
+		Log.i("NotificationDB", "Has " + count + " Rows");
+		if(count < 4)
+		{
+			cursor.close();
+			return false;
+		}
+		cursor.close();
+		return true;
+	}
 }

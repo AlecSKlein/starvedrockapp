@@ -7,8 +7,6 @@
         
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="Please see this"
-    android:textSize="20sp"
-    android:textColor="#00FF00"
-        />
+    android:id="@+id/poiText"
+         />
    </LinearLayout>

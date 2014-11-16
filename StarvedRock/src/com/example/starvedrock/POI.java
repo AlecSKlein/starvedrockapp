@@ -15,10 +15,10 @@ private	double longitude;
 private	String note;
 private Type type;
 
-public POI(String aName, String aType,double aLat, double aLong, String aNote){
+public POI(String aName, POI.Type aType,double aLat, double aLong, String aNote){
 	setPicture(null);
 	setName(aName);
-	setType(getType(aType));
+	type=aType;
 	setLatitude(aLat);
 	setLongitude(aLong);
 	setNote(aNote);
