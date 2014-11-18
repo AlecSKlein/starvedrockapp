@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/poiText"
-         />
-   </LinearLayout>
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/poiText"
+        android:layout_width="142dp"
+        android:layout_height="36dp"
+        android:layout_weight="0.63" />
+
+    <Switch
+        android:id="@+id/switchbutton"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.23"
+        android:textOff="Vibrate off"
+        android:textOn="Vibrate on" />
+
+</LinearLayout>

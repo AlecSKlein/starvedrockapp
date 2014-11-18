@@ -68,12 +68,20 @@ public class MainActivity extends FragmentActivity  {
         };
 
         // Add 3 tabs, specifying the tab's text and TabListener
-        for (int i = 0; i < 3; i++) {
+        
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText("Test")
+                            .setText("Map")
                             .setTabListener(tabListener));
-        }
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText("POI")
+                            .setTabListener(tabListener));
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText("Notification")
+                            .setTabListener(tabListener));
+        
         
     }
 }
