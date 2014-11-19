@@ -159,14 +159,14 @@ private extension UIStoryboard {
     class func mainStoryboard() -> UIStoryboard { return UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()) }
     
     class func newsViewController() -> NewsViewController? {
-        return mainStoryboard().instantiateViewControllerWithIdentifier("LeftViewController") as? NewsViewController
+        return mainStoryboard().instantiateViewControllerWithIdentifier("NewsViewController") as? NewsViewController
     }
     
     class func filtersViewController() -> FiltersViewController? {
-        return mainStoryboard().instantiateViewControllerWithIdentifier("RightViewController") as? FiltersViewController
+        return mainStoryboard().instantiateViewControllerWithIdentifier("FiltersViewController") as? FiltersViewController
     }
     
     class func centerMapViewController() -> CenterMapViewController? {
-        return mainStoryboard().instantiateViewControllerWithIdentifier("CenterViewController") as? CenterMapViewController
+        return mainStoryboard().instantiateViewControllerWithIdentifier("CenterMapViewController") as? CenterMapViewController
     }
 }
