@@ -118,6 +118,23 @@ public class StarvedRockDataSource {
 		return poiList;
 	}
 
+	public POI getPOI(double lat, double lon)
+	{
+		db=dbHelper.getReadableDatabase();
+		POI point= null;
+		String selectQuery = "Select "+poiColumns[0]+", "+poiColumns[1]+", "+poiColumns[3]+", "+poiColumns[4]+", "+poiColumns[5] +" FROM "+ StarvedRockDBHelper.POI_TABLE+" WHERE "+ StarvedRockDBHelper.LATITUDE+" = "+lat+" AND "+StarvedRockDBHelper.LONGITUDE+" = "+lon;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast())
+		{
+			point=cursorToPoI(cursor);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		db.close();
+		return point;
+	}
+
 	private Notification cursorToNotification(Cursor cursor) {
 		return new Notification(Notification.Type.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
