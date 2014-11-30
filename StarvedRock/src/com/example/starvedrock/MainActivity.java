@@ -23,7 +23,8 @@ public class MainActivity extends FragmentActivity  {
         
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        StarvedRockDBHelper db=new StarvedRockDBHelper(this);
+    
         mAdapter=new FragmentAdapter(getSupportFragmentManager());
         final ActionBar actionBar=getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);    

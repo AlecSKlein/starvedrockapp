@@ -23,7 +23,7 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 	public static final String LATITUDE="Latitude";
 	public static final String LONGITUDE="Longitude";
 	public static final String NOTES="notes";
-	
+	public static final String FLAG="marker";
 	
 	
 	
@@ -38,7 +38,7 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_TABLE_POI = "CREATE TABLE "
 			+ POI_TABLE + "(" +NAME + " TEXT, "+TYPE+ " TEXT, "+PICTURES+" blob, "+ LATITUDE + " REAL, " + LONGITUDE + " REAL, "
-			+ NOTES + " TEXT, " + "PRIMARY KEY ("+LATITUDE +", "+LONGITUDE+"));";
+			+ NOTES + " TEXT, " + FLAG + " INTEGER, " + "PRIMARY KEY ("+LATITUDE +", "+LONGITUDE+"));";
 
 	StarvedRockDBHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

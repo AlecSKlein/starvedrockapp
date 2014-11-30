@@ -14,17 +14,34 @@ private	double latitude;
 private	double longitude;
 private	String note;
 private Type type;
+private boolean flag;
 
-public POI(String aName, POI.Type aType,double aLat, double aLong, String aNote){
+public POI(String aName, POI.Type aType,double aLat, double aLong, String aNote, int i){
 	setPicture(null);
 	setName(aName);
 	type=aType;
 	setLatitude(aLat);
 	setLongitude(aLong);
 	setNote(aNote);
+	if(i==1){
+		flag=true;
+	}else
+	{
+		flag=false;
+	}
+	
+	
 	
 }
 	
+public boolean isFlag() {
+	return flag;
+}
+
+public void setFlag(boolean flag) {
+	this.flag = flag;
+}
+
 /**
  * @return the name
  */

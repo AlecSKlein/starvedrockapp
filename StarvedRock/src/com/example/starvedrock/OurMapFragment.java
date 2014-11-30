@@ -1,12 +1,35 @@
 package com.example.starvedrock;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
+import com.nutiteq.MapView;
+import com.nutiteq.components.Color;
+import com.nutiteq.components.Components;
+import com.nutiteq.components.MapPos;
+import com.nutiteq.geometry.Marker;
+import com.nutiteq.geometry.Point;
+import com.nutiteq.geometry.Point.PointInternalState;
+import com.nutiteq.geometry.VectorElement;
+import com.nutiteq.layers.Layer;
+import com.nutiteq.projections.EPSG3857;
+import com.nutiteq.rasterdatasources.PackagedRasterDataSource;
+import com.nutiteq.rasterdatasources.RasterDataSource;
+import com.nutiteq.rasterdatasources.RasterDataSource.*;
+import com.nutiteq.rasterlayers.*;
+import com.nutiteq.renderers.components.PickingState;
+import com.nutiteq.style.LabelStyle;
+import com.nutiteq.style.MarkerStyle;
+import com.nutiteq.style.PointStyle;
+import com.nutiteq.ui.MapListener;
+import com.nutiteq.utils.UnscaledBitmapLoader;
+import com.nutiteq.vectorlayers.GeometryLayer;
+import com.nutiteq.vectorlayers.MarkerLayer;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -14,6 +37,8 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
 public class OurMapFragment extends Fragment {
 	private GoogleMap mMap;
@@ -35,16 +60,4 @@ public class OurMapFragment extends Fragment {
 	    return view;
 		
 	}
-	/*
-	private void setUpMapIfNeeded() {
-	    // Do a null check to confirm that we have not already instantiated the map.
-	    if (mMap == null) {
-	        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-	        // Check if we were successful in obtaining the map.
-	        if (mMap != null) {
-	            // The Map is verified. It is now safe to manipulate the map.
-
-	        }
-	    }
-	}*/
 }

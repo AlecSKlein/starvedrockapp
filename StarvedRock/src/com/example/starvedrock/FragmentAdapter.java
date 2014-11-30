@@ -21,16 +21,20 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
 	public Fragment getItem(int index) {
 		// Depending on which tab is picked, we will make an if/else to set fragment
 		Fragment fragment;
-		if(index ==0){
-			fragment = new OurMapFragment();
-			return fragment;
-		}else
+		if(index==1)
 		{
 			fragment = new PoIFragment();
 			//Notification note=new Notification(Notification.Type.UPDATE, "Hello there sexy", "now", "eventually");
 			//TextView tview=(TextView)fragment.getView().findViewById(R.id.poiText);   
 			 //tview.setText(note.getText());
 		       // ((PoIFragment) fragment).showText(note.getText());
+			return fragment;
+		}else if(index==2){
+			fragment=new NotificationFragment();
+			return fragment;
+		}
+		else{
+			fragment = new OurMapFragment();
 			return fragment;
 		}
 	}

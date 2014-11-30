@@ -40,12 +40,31 @@ public class POIActivity extends FragmentActivity implements
 //	ViewPager mViewPager;
 	TextView nameView;
 	TextView noteView;
+	TextView catView;
+	//StarvedRockDataSource db;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_poi);
 		Intent intent=getIntent();
+		double lat = intent.getDoubleExtra(StarvedRockDBHelper.LATITUDE, 0);
+		double lon = intent.getDoubleExtra(StarvedRockDBHelper.LONGITUDE, 0);
+		StarvedRockDataSource db=new StarvedRockDataSource(this);
+		POI point=db.getPOI(lat, lon);
 		
+		nameView=(TextView)findViewById(R.id.nameView);
+		nameView.setText("No Luck");
+		catView=(TextView) findViewById(R.id.catView);
+		catView.setText(String.valueOf(lon));
+		noteView=(TextView)findViewById(R.id.noteView);
+		noteView.setText(String.valueOf(lon));//setText(point.getNote());
+		if(point!= null)
+		{
+			nameView.setText(point.getName());
+			catView.setText(point.getType().name());
+			noteView.setText(point.getNote());
+			
+		}
 /*
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

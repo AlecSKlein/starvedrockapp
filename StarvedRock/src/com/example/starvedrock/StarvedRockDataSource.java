@@ -13,9 +13,9 @@ public class StarvedRockDataSource {
 	
 	private SQLiteDatabase db;
 	private StarvedRockDBHelper dbHelper;
-
+	
 	private String[] poiColumns = {
-		StarvedRockDBHelper.NAME, StarvedRockDBHelper.TYPE, StarvedRockDBHelper.PICTURES, StarvedRockDBHelper.LATITUDE, StarvedRockDBHelper.LONGITUDE, StarvedRockDBHelper.NOTES 	
+		StarvedRockDBHelper.NAME, StarvedRockDBHelper.TYPE, StarvedRockDBHelper.PICTURES, StarvedRockDBHelper.LATITUDE, StarvedRockDBHelper.LONGITUDE, StarvedRockDBHelper.NOTES, StarvedRockDBHelper.FLAG 	
 	};
 	
 	private String[] notificationColumns = {
@@ -71,6 +71,7 @@ public class StarvedRockDataSource {
 		values.put(StarvedRockDBHelper.LATITUDE, info.getLatitude());
 		values.put(StarvedRockDBHelper.LONGITUDE, info.getLongitude());
 		values.put(StarvedRockDBHelper.NOTES, info.getNote());
+		values.put(StarvedRockDBHelper.FLAG, 0);
 		db.insert(StarvedRockDBHelper.POI_TABLE, null, values);
 		db.close();
 	}
@@ -105,7 +106,7 @@ public class StarvedRockDataSource {
 	{
 		db=dbHelper.getReadableDatabase();
 		ArrayList<POI> poiList=new ArrayList<POI>();
-		String selectQuery = "Select "+poiColumns[0]+", "+poiColumns[1]+", "+poiColumns[3]+", "+poiColumns[4]+", "+poiColumns[5] +" FROM "+ StarvedRockDBHelper.POI_TABLE;
+		String selectQuery = "Select "+poiColumns[0]+", "+poiColumns[1]+", "+poiColumns[3]+", "+poiColumns[4]+", "+poiColumns[5]+", "+poiColumns[6] +" FROM "+ StarvedRockDBHelper.POI_TABLE;
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast())
@@ -122,26 +123,37 @@ public class StarvedRockDataSource {
 	{
 		db=dbHelper.getReadableDatabase();
 		POI point= null;
-		String selectQuery = "Select "+poiColumns[0]+", "+poiColumns[1]+", "+poiColumns[3]+", "+poiColumns[4]+", "+poiColumns[5] +" FROM "+ StarvedRockDBHelper.POI_TABLE+" WHERE "+ StarvedRockDBHelper.LATITUDE+" = "+lat+" AND "+StarvedRockDBHelper.LONGITUDE+" = "+lon;
-		Cursor cursor = db.rawQuery(selectQuery, null);
+		String[] selectQuery ={ poiColumns[0],poiColumns[1], poiColumns[3],poiColumns[4], poiColumns[5],poiColumns[6]};// +" FROM "+ StarvedRockDBHelper.POI_TABLE+" WHERE "+ StarvedRockDBHelper.LATITUDE+" = "+lat+" AND "+StarvedRockDBHelper.LONGITUDE+" = "+lon;
+		//Cursor cursor = db.rawQuery(selectQuery, null);
+		Cursor cursor= db.query(StarvedRockDBHelper.POI_TABLE, selectQuery,  poiColumns[3]+ "=?"+" and "+poiColumns[4]+ "=?", new String[] {String.valueOf(lat), String.valueOf(lon)}, null, null, null);
+
 		cursor.moveToFirst();
-		while(!cursor.isAfterLast())
+		if(!cursor.isAfterLast())
 		{
 			point=cursorToPoI(cursor);
-			cursor.moveToNext();
+			//cursor.moveToNext();
 		}
 		cursor.close();
 		db.close();
 		return point;
 	}
 
+	public void updatePOIFlag(double lat, double lon, int flag){
+		SQLiteDatabase db=dbHelper.getWritableDatabase();
+		ContentValues values =new ContentValues();
+		
+		values.put(poiColumns[6], flag);
+		db.update(StarvedRockDBHelper.POI_TABLE, values,  poiColumns[3]+ "=?"+" and "+poiColumns[4]+ "=?", new String[] {String.valueOf(lat), String.valueOf(lon)});
+		db.close();
+	}
+	
 	private Notification cursorToNotification(Cursor cursor) {
 		return new Notification(Notification.Type.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
 	}
 
 	private POI cursorToPoI(Cursor cursor) {
-		return new POI(cursor.getString(0),POI.Type.valueOf( cursor.getString(1)),cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4));
+		return new POI(cursor.getString(0),POI.Type.valueOf( cursor.getString(1)),cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4), cursor.getInt(5));
 
 	}
 }

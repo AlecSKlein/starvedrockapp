@@ -8,5 +8,7 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"
-  		  
+  		  map:cameraTargetLat="41.3124"
+  		  map:cameraTargetLng="-88.9903"
+  		  map:cameraZoom="16"
          />
