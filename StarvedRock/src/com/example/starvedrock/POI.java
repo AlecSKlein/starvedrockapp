@@ -56,7 +56,7 @@ public void setName(String name) {
 	this.name = name;
 }
 
-private POI.Type getType(String string)
+public static POI.Type getType(String string)
 {
 	Type aType = null;
 	if(string.equalsIgnoreCase("PARKING"))

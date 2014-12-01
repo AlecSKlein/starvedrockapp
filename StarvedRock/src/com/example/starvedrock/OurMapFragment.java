@@ -5,28 +5,7 @@ import java.util.List;
 
 
 import com.google.android.gms.maps.GoogleMap;
-import com.nutiteq.MapView;
-import com.nutiteq.components.Color;
-import com.nutiteq.components.Components;
-import com.nutiteq.components.MapPos;
-import com.nutiteq.geometry.Marker;
-import com.nutiteq.geometry.Point;
-import com.nutiteq.geometry.Point.PointInternalState;
-import com.nutiteq.geometry.VectorElement;
-import com.nutiteq.layers.Layer;
-import com.nutiteq.projections.EPSG3857;
-import com.nutiteq.rasterdatasources.PackagedRasterDataSource;
-import com.nutiteq.rasterdatasources.RasterDataSource;
-import com.nutiteq.rasterdatasources.RasterDataSource.*;
-import com.nutiteq.rasterlayers.*;
-import com.nutiteq.renderers.components.PickingState;
-import com.nutiteq.style.LabelStyle;
-import com.nutiteq.style.MarkerStyle;
-import com.nutiteq.style.PointStyle;
-import com.nutiteq.ui.MapListener;
-import com.nutiteq.utils.UnscaledBitmapLoader;
-import com.nutiteq.vectorlayers.GeometryLayer;
-import com.nutiteq.vectorlayers.MarkerLayer;
+
 
 
 import android.graphics.Typeface;
