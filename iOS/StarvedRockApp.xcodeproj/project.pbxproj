@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		904B0D7A1A2C31FE00FE8D46 /* POIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B0D791A2C31FE00FE8D46 /* POIs.swift */; };
+		904B0D7C1A2C31FF00FE8D46 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B0D7B1A2C31FF00FE8D46 /* Notifications.swift */; };
 		905B80A819F5C4DB00468A67 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80A719F5C4DB00468A67 /* ContainerViewController.swift */; };
 		905B80AA19F5C75E00468A67 /* CenterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80A919F5C75E00468A67 /* CenterMapViewController.swift */; };
 		905B80AC19F5C77300468A67 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B80AB19F5C77300468A67 /* NewsViewController.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		904B0D791A2C31FE00FE8D46 /* POIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIs.swift; sourceTree = "<group>"; };
+		904B0D7B1A2C31FF00FE8D46 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		905B80A719F5C4DB00468A67 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		905B80A919F5C75E00468A67 /* CenterMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterMapViewController.swift; sourceTree = "<group>"; };
 		905B80AB19F5C77300468A67 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 				90FA32B019EC672D00E89D31 /* Images.xcassets */,
 				90FA32B219EC672D00E89D31 /* LaunchScreen.xib */,
 				90FA32A819EC672D00E89D31 /* StarvedRockApp.xcdatamodeld */,
+				904B0D7B1A2C31FF00FE8D46 /* Notifications.swift */,
+				904B0D791A2C31FE00FE8D46 /* POIs.swift */,
 				90FA32A419EC672D00E89D31 /* Supporting Files */,
 			);
 			path = StarvedRockApp;
@@ -228,8 +234,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				904B0D7C1A2C31FF00FE8D46 /* Notifications.swift in Sources */,
 				905B80AA19F5C75E00468A67 /* CenterMapViewController.swift in Sources */,
 				905B80AE19F5C79400468A67 /* FiltersViewController.swift in Sources */,
+				904B0D7A1A2C31FE00FE8D46 /* POIs.swift in Sources */,
 				90FA32AA19EC672D00E89D31 /* StarvedRockApp.xcdatamodeld in Sources */,
 				905B80AC19F5C77300468A67 /* NewsViewController.swift in Sources */,
 				905B80A819F5C4DB00468A67 /* ContainerViewController.swift in Sources */,
