@@ -31,7 +31,7 @@ public class Notification {
 	
 	public String getDate()
 	{
-		return date.substring(5, 10);
+		return date;
 	}
 
 	/**

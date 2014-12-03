@@ -14,12 +14,23 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-
+/**
+ * ArrayAdapter for POIs used in instantiate the PoIFragment.
+ * @author josh
+ *
+ */
 public class POIAdapter extends ArrayAdapter<POI> {
 	int resource;
 	StarvedRockDataSource db;
 	private Context mContext;
 	POI pItem;
+	
+	/**
+	 * Constructor that takes in the context, resource, and array.
+	 * @param context The activity
+	 * @param resource The GUI id
+	 * @param objects array of items
+	 */
 	public POIAdapter(Context context, int resource, 			List<POI> objects) {
 		super(context, resource,  objects);
 		this.resource=resource;
@@ -28,6 +39,10 @@ public class POIAdapter extends ArrayAdapter<POI> {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		LinearLayout poiVIew;
@@ -48,6 +63,7 @@ public class POIAdapter extends ArrayAdapter<POI> {
 		Switch sButton=(Switch)poiVIew.findViewById(R.id.switchbutton);
 		
 			sButton.setChecked(pItem.isFlag());
+			//Sets up the listener to open the POIActivity.
 			poiButton.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -60,7 +76,7 @@ public class POIAdapter extends ArrayAdapter<POI> {
 				}
 				
 			});
-			
+			//When the button is pressed, it sets the flag in the db on or off
 			sButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 	            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	                if (isChecked) {
@@ -73,10 +89,6 @@ public class POIAdapter extends ArrayAdapter<POI> {
 	                }
 	            }
 	        });
-		
-		//sButton.
-		//idText.setText(String.valueOf(pItem.getID()));
-		//poiButton.setText(pItem.getName());
 		
 		return poiVIew;
 		

@@ -20,6 +20,11 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+/**
+ * Takes the POIAdapter and sets it into a fragment for the FragmentActivity.
+ * @author josh
+ *
+ */
 public class PoIFragment extends Fragment {
 	
     Button poiButton;
@@ -27,6 +32,11 @@ public class PoIFragment extends Fragment {
     POI poiThis;
     POIAdapter plistadp;
     private ListView lstPOI;
+    
+    /*
+     * (non-Javadoc)
+     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {

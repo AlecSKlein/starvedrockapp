@@ -40,9 +40,17 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 			+ POI_TABLE + "(" +NAME + " TEXT, "+TYPE+ " TEXT, "+PICTURES+" blob, "+ LATITUDE + " REAL, " + LONGITUDE + " REAL, "
 			+ NOTES + " TEXT, " + FLAG + " INTEGER, " + "PRIMARY KEY ("+LATITUDE +", "+LONGITUDE+"));";
 
+	/**
+	 * Constructor
+	 * @param context
+	 */
 	StarvedRockDBHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 		// TODO Auto-generated method stub
@@ -51,6 +59,10 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 		database.execSQL(CREATE_TABLE_POI);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w(StarvedRockDBHelper.class.getName(), 
@@ -62,6 +74,11 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * Checks if the notificationt table exists.
+	 * @param database
+	 * @return
+	 */
 	public boolean regionTableExists(SQLiteDatabase database)
 	{
 		if(!database.isOpen())
