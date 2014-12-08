@@ -76,20 +76,20 @@ public class StarvedRockDBHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Checks if the notificationt table exists.
+	 * 
 	 * @param database
 	 * @return
 	 */
-	public boolean regionTableExists(SQLiteDatabase database)
-	{
-		if(!database.isOpen())
+	public boolean regionTableExists(SQLiteDatabase database) {
+		if (!database.isOpen())
 			return false;
-		
-		Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + NOTIFICATION_TABLE + ";", null);
-		
+
+		Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM "
+				+ NOTIFICATION_TABLE + ";", null);
+
 		int count = cursor.getCount();
 		Log.i("NotificationDB", "Has " + count + " Rows");
-		if(count < 4)
-		{
+		if (count < 4) {
 			cursor.close();
 			return false;
 		}

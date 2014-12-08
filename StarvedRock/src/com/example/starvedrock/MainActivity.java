@@ -33,10 +33,10 @@ import android.widget.Toast;
  *
  */
 public class MainActivity extends FragmentActivity  {
-	//TAG used for error handling
+	//TAG used for error handling              
 	protected static final String TAG = "Getting array";
 	//This is where the server url goes.
-	String url = "http://10.133.76.188:8000";
+	String url = "http://10.133.95.136:8000";
 	//Used for testing purposes to make sure you are recieving information from server.
 	private ProgressDialog pDialog;
 	

@@ -15,7 +15,7 @@
         android:layout_width="38dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.23"
-        android:textOff="Vibrate off"
-        android:textOn="Vibrate on" />
+        android:textOff="Location off"
+        android:textOn="Location on" />
 
 </LinearLayout>
