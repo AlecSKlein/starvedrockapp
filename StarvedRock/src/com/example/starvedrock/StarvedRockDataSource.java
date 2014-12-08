@@ -228,6 +228,28 @@ public class StarvedRockDataSource {
 	}
 
 	/**
+	 * Gets all the POIflags that the user wants to show.
+	 * @return
+	 */
+	public List<POI> getPOIFlags()
+	{
+		db=dbHelper.getReadableDatabase();
+		String[] selectQuery ={ poiColumns[0],poiColumns[1], poiColumns[3],poiColumns[4], poiColumns[5],poiColumns[6]};// +" FROM "+ StarvedRockDBHelper.POI_TABLE+" WHERE "+ StarvedRockDBHelper.LATITUDE+" = "+lat+" AND "+StarvedRockDBHelper.LONGITUDE+" = "+lon;
+		//Cursor cursor = db.rawQuery(selectQuery, null);
+		Cursor cursor= db.query(StarvedRockDBHelper.POI_TABLE, selectQuery,  poiColumns[6]+ "=?", new String[] {"1"}, null, null, null);
+		db=dbHelper.getReadableDatabase();
+		ArrayList<POI> poiList=new ArrayList<POI>();
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast())
+		{
+			poiList.add(cursorToPoI(cursor));
+			cursor.moveToNext();
+		}
+		cursor.close();
+		db.close();
+		return poiList;
+	}
+	/**
 	 * Takes in the latitude and longitude and updates rather the POI should be shown or not.
 	 * @param lat	latitude
 	 * @param lon	longitude
