@@ -13,7 +13,7 @@ public class POI
 	public	static enum Type{PARKING, HISTORICAL, GEOLOGY, VEGETATION, RESTROOMS, TRAILS, VISITATION_CENTER, CAMPGROUND, DINING, LODGING, RANGER_STATION};
 
 	
-	/*	This is just set up for pictures. Picture is not implemented at this point.
+	/*	This is just set up for pictures. Pictures are not implemented at this point.
 	Example code: http://stackoverflow.com/questions/9357668/how-to-store-image-in-sqlite-database
 	*/
 private	byte[] picture;
